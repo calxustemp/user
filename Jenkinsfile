@@ -25,13 +25,13 @@ pipeline {
             steps {
                 sh 'mvn versions:set -DnewVersion=0.${BUILD_ID}.0'
                 sh 'mvn clean install -Duser.home=/var/maven'
+                stash includes: 'target/${APPLICATION}-jar-with-dependencies.jar', name: 'build-artifact'
             }
         }
         stage('Docker Build') {
             agent any
             steps {
-                sh 'ls -la'
-                sh 'ls -la target/'
+                unstash 'build-artifact'
                 sh 'docker build --tag docker.io/gtadam89/${APPLICATION}:0.${BUILD_ID}.0 .'
                 sh 'docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"'
                 sh 'docker push docker.io/gtadam89/${APPLICATION}:0.${BUILD_ID}.0'
