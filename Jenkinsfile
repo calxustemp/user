@@ -2,6 +2,7 @@ pipeline {
     agent none
     environment {
         APPLICATION = 'user'
+        APPLICATION_VERSION = '0.${BUILD_ID}.0'
     }
     triggers {
         pollSCM '* * * * *'
@@ -10,7 +11,7 @@ pipeline {
         stage('Version') {
             agent any
             steps {
-                sh 'git tag 0.${BUILD_ID}.0'
+                sh 'git tag ${APPLICATION_VERSION}'
                 sh 'git remote set-url origin git@github.com:calxus/${APPLICATION}.git'
                 sh 'git push origin --tags'
             }
@@ -23,16 +24,17 @@ pipeline {
                 }
             }
             steps {
+                sh 'mvn versions:set -DnewVersion=${APPLICATION_VERSION}'
                 sh 'mvn clean install -Duser.home=/var/maven'
             }
         }
         stage('Docker Build') {
             agent any
             steps {
-                sh 'docker build --tag docker.io/gtadam89/${APPLICATION}:${BUILD_ID} .'
+                sh 'docker build --tag docker.io/gtadam89/${APPLICATION}:${APPLICATION_VERSION} .'
                 sh 'docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"'
-                sh 'docker push docker.io/gtadam89/${APPLICATION}:${BUILD_ID}'
-                sh 'docker tag docker.io/gtadam89/${APPLICATION}:${BUILD_ID} docker.io/gtadam89/${APPLICATION}:latest'
+                sh 'docker push docker.io/gtadam89/${APPLICATION}:${APPLICATION_VERSION}'
+                sh 'docker tag docker.io/gtadam89/${APPLICATION}:${APPLICATION_VERSION} docker.io/gtadam89/${APPLICATION}:latest'
                 sh 'docker push docker.io/gtadam89/${APPLICATION}:latest'
             }
         }
