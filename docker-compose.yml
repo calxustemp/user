@@ -8,4 +8,12 @@ services:
       - 4567
     networks:
       internal:
-        ipv4_address: 10.5.10.1
+        ipv4_address: 10.5.10.5
+
+networks:
+
+  internal:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.10.0/24
