@@ -4,7 +4,8 @@ services:
 
   user-service:
     image: docker.io/gtadam89/user:latest
-    expose: 4567
+    expose: 
+      - 4567
     networks:
       internal:
         ipv4_address: 10.5.10.1
