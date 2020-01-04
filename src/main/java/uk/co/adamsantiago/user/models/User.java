@@ -1,7 +1,7 @@
-package io.adamgomez.user.models;
+package uk.co.adamsantiago.user.models;
 
-import io.adamgomez.common.services.DBConnection;
-import io.adamgomez.common.utils.StatementGenerator;
+import uk.co.adamsantiago.common.services.DBConnection;
+import uk.co.adamsantiago.common.utils.StatementGenerator;
 import org.json.simple.JSONObject;
 
 import java.sql.ResultSet;

@@ -1,8 +1,8 @@
-package io.adamgomez.user;
+package uk.co.adamsantiago.user;
 
-import io.adamgomez.user.models.Login;
-import io.adamgomez.user.models.User;
-import io.adamgomez.common.services.DBConnection;
+import uk.co.adamsantiago.user.models.Login;
+import uk.co.adamsantiago.user.models.User;
+import uk.co.adamsantiago.common.services.DBConnection;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
