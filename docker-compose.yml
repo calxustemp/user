@@ -1,4 +1,10 @@
-version: "3"
+version: "3.4"
+
 services:
-  user:
+
+  user-service:
     image: docker.io/gtadam89/user:latest
+    expose: 4567
+    networks:
+      internal:
+        ipv4_address: 10.5.10.1
