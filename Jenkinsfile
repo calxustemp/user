@@ -5,11 +5,7 @@ pipeline {
     }
     stages {
         stage('Version') {
-            agent {
-                docker {
-                    image 'alpine/git'
-                }
-            }
+            agent any
             steps {
                 sh 'git tag 0.${BUILD_ID}.0 -a Version 0.${BUILD_ID}.0'
                 sh 'git push origin --tags'
@@ -30,20 +26,17 @@ pipeline {
             agent any
             steps {
                 sh 'docker build --tag docker.io/gtadam89/${APPLICATION}:${BUILD_ID}'
-                sh 'docker login -u "$env:DOCKER_USERNAME" -p "$env:DOCKER_PASSWORD"'
+                sh 'docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"'
                 sh 'docker push docker.io/gtadam89/${APPLICATION}:${BUILD_ID}'
                 sh 'docker tag docker.io/gtadam89/${APPLICATION}:${BUILD_ID} docker.io/gtadam89/${APPLICATION}:latest'
                 sh 'docker push docker.io/gtadam89/${APPLICATION}:latest'
             }
         }
         stage('Deploy') {
-            agent {
-                docker {
-                    image 'gotechnies/alpine-ssh'
-                }
-            }
+            agent any
             steps {
-                sh 'cat $env:SSH_PRIVATEKEY'
+                sh 'scp docker-compose.yml ${SSH_USERNAME}@${DEPLOY_HOST}:/home/gadam/user/docker-compose.yml'
+                sh 'ssh ${SSH_USERNAME}@${DEPLOY_HOST} \'service ${APPLICATION} restart\''
             }
         }
     }

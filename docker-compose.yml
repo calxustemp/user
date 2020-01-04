@@ -1,0 +1,4 @@
+version: "3"
+services:
+  user:
+    image: docker.io/gtadam89/user:latest
