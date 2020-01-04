@@ -11,7 +11,7 @@ pipeline {
             agent any
             steps {
                 sh 'git tag 0.${BUILD_ID}.0'
-                sh 'git remote add origin git@github.com:calxus/user.git'
+                sh 'git remote set-url origin git@github.com:calxus/user.git'
                 sh 'git push origin --tags'
             }
         }
