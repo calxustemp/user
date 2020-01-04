@@ -43,6 +43,7 @@ pipeline {
             agent any
             steps {
                 sh 'scp docker-compose.yml ${SSH_USERNAME}@${DEPLOY_HOST}:/home/gadam/user/docker-compose.yml'
+                sh 'ssh ${SSH_USERNAME}@${DEPLOY_HOST} \'sudo service user stop\''
                 sh 'ssh ${SSH_USERNAME}@${DEPLOY_HOST} \'sudo service user restart\''
             }
         }
