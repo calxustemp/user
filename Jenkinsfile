@@ -12,7 +12,6 @@ pipeline {
             steps {
                 sh 'git tag 0.${BUILD_ID}.0'
                 sh 'git remote set-url origin git@github.com:calxus/${APPLICATION}.git'
-                sh 'ssh -v git@github.com'
                 sh 'git push origin --tags'
             }
         }
