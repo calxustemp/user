@@ -30,6 +30,8 @@ pipeline {
         stage('Docker Build') {
             agent any
             steps {
+                sh 'ls -la'
+                sh 'ls -la target/'
                 sh 'docker build --tag docker.io/gtadam89/${APPLICATION}:0.${BUILD_ID}.0 .'
                 sh 'docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"'
                 sh 'docker push docker.io/gtadam89/${APPLICATION}:0.${BUILD_ID}.0'
