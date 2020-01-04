@@ -11,7 +11,8 @@ pipeline {
             agent any
             steps {
                 sh 'git tag 0.${BUILD_ID}.0'
-                sh 'git remote set-url origin git@github.com:calxus/user.git'
+                sh 'git remote set-url origin git@github.com:calxus/${APPLICATION}.git'
+                sh 'ssh -v git@github.com'
                 sh 'git push origin --tags'
             }
         }
@@ -29,7 +30,7 @@ pipeline {
         stage('Docker Build') {
             agent any
             steps {
-                sh 'docker build --tag docker.io/gtadam89/${APPLICATION}:${BUILD_ID}'
+                sh 'docker build --tag docker.io/gtadam89/${APPLICATION}:${BUILD_ID} .'
                 sh 'docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"'
                 sh 'docker push docker.io/gtadam89/${APPLICATION}:${BUILD_ID}'
                 sh 'docker tag docker.io/gtadam89/${APPLICATION}:${BUILD_ID} docker.io/gtadam89/${APPLICATION}:latest'
