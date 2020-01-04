@@ -7,7 +7,7 @@ pipeline {
         stage('Version') {
             agent any
             steps {
-                sh 'git tag 0.${BUILD_ID}.0 -a Version 0.${BUILD_ID}.0'
+                sh 'git tag 0.${BUILD_ID}.0'
                 sh 'git push origin --tags'
             }
         }
