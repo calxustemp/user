@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh 'mvn versions:set -DnewVersion=0.${BUILD_ID}.0'
                 sh 'mvn clean install -Duser.home=/var/maven'
-                stash includes: 'target/${APPLICATION}-jar-with-dependencies.jar', name: 'build-artifact'
+                stash includes: 'target/', name: 'build-artifact'
             }
         }
         stage('Docker Build') {
