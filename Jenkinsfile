@@ -4,7 +4,7 @@ pipeline {
         APPLICATION = 'user'
     }
     triggers {
-        pollSCM '15 * * * * ? *'
+        pollSCM '* * * * *'
     }
     stages {
         stage('Version') {
