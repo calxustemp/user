@@ -43,7 +43,7 @@ pipeline {
             agent {
                 docker {
                     image 'docker.io/gtadam89/ansible:latest'
-                    args '-v /root/.ssh:/root/.ssh'
+                    args '-v /root/.ssh:/root/.ssh -u root:root'
                 }
             }
             steps {
