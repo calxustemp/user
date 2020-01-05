@@ -1,0 +1,20 @@
+[Unit]
+Description=user.service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+
+# Remove old containers, images and volumes
+ExecStartPre=/usr/bin/docker-compose -f /etc/adamsantiago/user/docker-compose.yml down
+
+# Compose up
+ExecStart=/usr/bin/docker-compose -f /etc/adamsantiago/user/docker-compose.yml up
+
+# Compose down, remove containers and volumes
+ExecStop=/usr/bin/docker-compose -f /etc/adamsantiago/user/docker-compose.yml down
+ExecStop=/usr/bin/docker rmi gtadam89/user:latest
+
+[Install]
+WantedBy=multi-user.target

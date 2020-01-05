@@ -1,0 +1,44 @@
+---
+- name: Deployment of Docker Compose Service
+  hosts: all
+  tasks:
+
+    - name: Ensure directory structure exists
+      become: true
+      file: path=/etc/adamsantiago/user state=directory
+
+    - name: Copy docker compose to appropriate directory
+      become: true
+      copy:
+        src: deploy/docker-compose.yml
+        dest: /etc/adamsantiago/user/docker-compose.yml
+        owner: gadam
+        group: gadam
+        mode: '0755'
+
+    - name: Copy service to appropriate directory
+      become: true
+      copy:
+        src: deploy/user.service
+        dest: /etc/systemd/system/user.service
+        owner: gadam
+        group: gadam
+        mode: '0755'
+
+    - name: Reload configurations for service
+      become: true
+      systemd:
+        daemon_reload: yes
+
+    - name: Ensure user service begins on startup
+      become: true
+      systemd:
+        name: user
+        enabled: yes
+        masked: no
+
+    - name: Make sure user service is running
+      become: true
+      systemd:
+        state: restarted
+        name: user

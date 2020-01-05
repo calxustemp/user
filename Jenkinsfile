@@ -40,11 +40,14 @@ pipeline {
             }
         }
         stage('Deploy') {
-            agent any
+            agent {
+                docker {
+                    image 'williamyeh/ansible:ubuntu16.04'
+                    args '-v /root/.ssh:/root/.ssh'
+                }
+            }
             steps {
-                sh 'scp docker-compose.yml ${SSH_USERNAME}@${DEPLOY_HOST}:/home/gadam/user/docker-compose.yml'
-                sh 'ssh ${SSH_USERNAME}@${DEPLOY_HOST} \'sudo service user stop\''
-                sh 'ssh ${SSH_USERNAME}@${DEPLOY_HOST} \'sudo service user restart\''
+                sh 'ansible-playbook --user=${SSH_USERNAME} -i "${DEPLOY_HOST}" deploy/playbook.yml'
             }
         }
     }
