@@ -10,7 +10,7 @@
     - name: Copy docker compose to appropriate directory
       become: true
       copy:
-        src: deploy/docker-compose.yml
+        src: docker-compose.yml
         dest: /etc/adamsantiago/user/docker-compose.yml
         owner: gadam
         group: gadam
@@ -19,7 +19,7 @@
     - name: Copy service to appropriate directory
       become: true
       copy:
-        src: deploy/user.service
+        src: user.service
         dest: /etc/systemd/system/user.service
         owner: gadam
         group: gadam

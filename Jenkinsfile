@@ -43,7 +43,7 @@ pipeline {
             agent {
                 docker {
                     image 'williamyeh/ansible:ubuntu16.04'
-                    args '-v /root/.ssh:/root/.ssh -u root:root'
+                    args '-v /root/.ssh:/root/.ssh -u root:root -e ANSIBLE_HOST_KEY_CHECKING=False'
                 }
             }
             steps {
