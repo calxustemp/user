@@ -42,7 +42,7 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'docker.io/gtadam89/ansible:latest'
+                    image 'williamyeh/ansible:ubuntu16.04'
                     args '-v /root/.ssh:/root/.ssh -u root:root'
                 }
             }
