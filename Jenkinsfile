@@ -43,7 +43,7 @@ pipeline {
             agent {
                 docker {
                     image 'williamyeh/ansible:ubuntu16.04'
-                    args '-v /root/.ssh:/root/.ssh'
+                    args '-v /root/.ssh:/root/.ssh -e DEFAULT_LOCAL_TMP=`pwd`'
                 }
             }
             steps {
