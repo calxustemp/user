@@ -47,7 +47,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'ansible-playbook --user=${SSH_USERNAME} -i "${DEPLOY_HOST}" deploy/playbook.yml'
+                sh 'ansible-playbook --user=${SSH_USERNAME} -i "${DEPLOY_HOST}," deploy/playbook.yml'
             }
         }
     }
