@@ -42,12 +42,11 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'williamyeh/ansible:ubuntu16.04'
-                    args '--privileged -v /root/.ssh:/root/.ssh -e HOME=/root'
+                    image 'docker.io/gtadam89/ansible:latest'
+                    args '-v /root/.ssh:/root/.ssh'
                 }
             }
             steps {
-                sh 'whoami'
                 sh 'ansible-playbook --user=${SSH_USERNAME} -i "${DEPLOY_HOST}," deploy/playbook.yml'
             }
         }
