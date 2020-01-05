@@ -47,7 +47,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'ansible-playbook -vvvv --private-key=/root/.ssh/id_rsa --user=${SSH_USERNAME} -i "${DEPLOY_HOST}," deploy/playbook.yml'
+                sh 'ansible-playbook --private-key=/root/.ssh/id_rsa --user=${SSH_USERNAME} -i "${DEPLOY_HOST}," deploy/playbook.yml'
             }
         }
     }
