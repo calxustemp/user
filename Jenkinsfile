@@ -43,10 +43,11 @@ pipeline {
             agent {
                 docker {
                     image 'williamyeh/ansible:ubuntu16.04'
-                    args '-v /root/.ssh:/root/.ssh -e DEFAULT_LOCAL_TMP=`pwd`'
+                    args '-v /root/.ssh:/root/.ssh -e HOME=/tmp'
                 }
             }
             steps {
+                sh 'export HOME=`pwd`'
                 sh 'ansible-playbook --user=${SSH_USERNAME} -i "${DEPLOY_HOST}" deploy/playbook.yml'
             }
         }
