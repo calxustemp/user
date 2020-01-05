@@ -43,7 +43,7 @@ pipeline {
             agent {
                 docker {
                     image 'williamyeh/ansible:ubuntu16.04'
-                    args '-v /root/.ssh:/root/.ssh -e HOME=/tmp'
+                    args '-v /root/.ssh:/root/.ssh -e HOME=/var/jenkins_home'
                 }
             }
             steps {
