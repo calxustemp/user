@@ -5,11 +5,11 @@ services:
   user-service:
     image: docker.io/gtadam89/user:latest
     environment:
-      - DB_HOSTNAME=10.5.12.5
+      - DB_HOSTNAME=adamsantiago.co.uk
       - DB_PORT=3306
       - DB_NAME=ashilda
       - DB_USERNAME=root
-      - DB_PASSWORD=root
+      - DB_PASSWORD=stillspringwater
     expose: 
       - 4567
     networks:
