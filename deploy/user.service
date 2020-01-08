@@ -14,7 +14,7 @@ ExecStart=/usr/bin/docker-compose -f /etc/adamsantiago/user/docker-compose.yml u
 
 # Compose down, remove containers and volumes
 ExecStop=/usr/bin/docker-compose -f /etc/adamsantiago/user/docker-compose.yml down
-ExecStop=/usr/bin/docker rmi gtadam89/user:latest
+ExecStop=/usr/bin/docker rmi --force gtadam89/user:latest
 
 [Install]
 WantedBy=multi-user.target
