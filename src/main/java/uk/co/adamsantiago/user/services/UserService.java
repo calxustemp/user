@@ -52,6 +52,11 @@ public class UserService {
         return true;
     }
 
+    public static boolean deleteUser(DBConnection connection, JSONObject deleteData) {
+        String deleteStatement = populateDeleteData(deleteData);
+        connection.executeQuery(deleteStatement);
+        return true;
+    }
 
     private static String populateInsertData(JSONObject postData) {
         String firstName = (String)postData.get(FIRST_NAME);
@@ -93,6 +98,11 @@ public class UserService {
         values.add(password);
 
         return StatementGenerator.update(USER, columns, values, ID, id);
+    }
+
+    private static String populateDeleteData(JSONObject deleteData) {
+        String id = (String)deleteData.get(ID);
+        return StatementGenerator.delete(USER, ID, id);
     }
 
     private static String populateGetData(JSONObject getData) {

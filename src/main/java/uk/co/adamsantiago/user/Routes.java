@@ -47,6 +47,8 @@ public class Routes {
         });
         delete("/user", (req, res) -> {
             DBConnection connection = new DBConnection();
+            JSONObject deleteData = parseJson(req);
+            UserService.deleteUser(connection, deleteData);
             connection.close();
             res.status(200);
             return "";
