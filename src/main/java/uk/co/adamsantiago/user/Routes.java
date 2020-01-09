@@ -23,7 +23,7 @@ public class Routes {
     public static void main(String[] args) {
         get("/user", (req, res) -> {
             DBConnection connection = new DBConnection();
-            JSONObject getData = parseJson(req);
+            JSONObject getData = parseQueryParams(req);
             UserService.getUser(connection, getData);
             connection.close();
             res.status(200);
@@ -59,5 +59,12 @@ public class Routes {
             logger.error("Failed to parse data");
             return null;
         }
+    }
+    private static JSONObject parseQueryParams(Request req) {
+        JSONObject jsonObject = new JSONObject();
+        for (String queryParam : req.queryParams()) {
+            jsonObject.put(queryParam, req.queryParams(queryParam));
+        }
+        return jsonObject;
     }
 }
