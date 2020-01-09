@@ -24,10 +24,10 @@ public class Routes {
         get("/user", (req, res) -> {
             DBConnection connection = new DBConnection();
             JSONObject getData = parseQueryParams(req);
-            UserService.getUser(connection, getData);
+            String userJson = UserService.getUser(connection, getData);
             connection.close();
             res.status(200);
-            return "";
+            return userJson;
         });
         post("/user", (req, res) -> {
             DBConnection connection = new DBConnection();

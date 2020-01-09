@@ -15,7 +15,7 @@ public class User {
         this.email = email;
     }
 
-    public JSONObject getJson() {
+    public JSONObject toString() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(FIRST_NAME, firstName);
         jsonObject.put(LAST_NAME, lastName);
