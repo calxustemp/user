@@ -15,11 +15,11 @@ public class User {
         this.email = email;
     }
 
-    public JSONObject getJson() {
+    public String getJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(FIRST_NAME, firstName);
         jsonObject.put(LAST_NAME, lastName);
         jsonObject.put(EMAIL, email);
-        return jsonObject;
+        return jsonObject.toString();
     }
 }

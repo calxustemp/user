@@ -41,7 +41,7 @@ public class UserService {
         }
         JSONArray jsonArray = new JSONArray();
         for (User user : users) {
-            jsonArray.add(user);
+            jsonArray.add(user.toString());
         }
         return jsonArray.toString();
     }
