@@ -46,6 +46,12 @@ public class UserService {
         return jsonArray.toString();
     }
 
+    public static boolean updateUser(DBConnection connection, JSONObject putData) {
+        String updateStatement = populateUpdateData(putData);
+        connection.executeQuery(updateStatement);
+        return true;
+    }
+
 
     private static String populateInsertData(JSONObject postData) {
         String firstName = (String)postData.get(FIRST_NAME);
@@ -65,6 +71,28 @@ public class UserService {
         values.add(email);
         values.add(password);
         return StatementGenerator.insert(USER, columns, values);
+    }
+
+    private static String populateUpdateData(JSONObject putData) {
+        String id = (String)putData.get(ID);
+        String firstName = (String)putData.get(FIRST_NAME);
+        String lastName = (String)putData.get(LAST_NAME);
+        String email = (String)putData.get(EMAIL);
+        String password = (String)putData.get(PASSWORD);
+
+        ArrayList<String> columns = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<String>();
+
+        columns.add(FIRST_NAME);
+        columns.add(LAST_NAME);
+        columns.add(EMAIL);
+        columns.add(PASSWORD);
+        values.add(firstName);
+        values.add(lastName);
+        values.add(email);
+        values.add(password);
+
+        return StatementGenerator.update(USER, columns, values, ID, id);
     }
 
     private static String populateGetData(JSONObject getData) {

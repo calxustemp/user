@@ -39,6 +39,8 @@ public class Routes {
         });
         put("/user", (req, res) -> {
             DBConnection connection = new DBConnection();
+            JSONObject putData = parseJson(req);
+            UserService.updateUser(connection, putData);
             connection.close();
             res.status(200);
             return "";
