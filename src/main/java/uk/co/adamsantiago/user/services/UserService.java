@@ -3,22 +3,19 @@ package uk.co.adamsantiago.user.services;
 import uk.co.adamsantiago.common.utils.StatementGenerator;
 import uk.co.adamsantiago.common.services.DBConnection;
 import uk.co.adamsantiago.common.models.Insert;
+import uk.co.adamsantiago.user.models.User; 
+import static uk.co.adamsantiago.user.Constants.*;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserService {
 
     final static Logger logger = Logger.getLogger(UserService.class);
-
-    private final static String USER = "user";
-
-    private final static String ID = "id";
-    private final static String FIRST_NAME = "first_name";
-    private final static String LAST_NAME = "last_name";
-    private final static String EMAIL = "email";
-    private final static String PASSWORD = "password";
 
     public static boolean createUser(DBConnection connection, JSONObject postData) {
         String insertStatement = populateInsertData(postData);
@@ -26,10 +23,27 @@ public class UserService {
         return true;
     }
 
-    public static boolean getUser(DBConnection connection, JSONObject getData) {
+    public static String getUser(DBConnection connection, JSONObject getData) {
         String getStatement = populateGetData(getData);
-        connection.executeQuery(getStatement);
-        return true;
+        ResultSet rs = connection.executeQuery(getStatement);
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            while(rs.next()) {
+                String firstName = rs.getString(FIRST_NAME);
+                String lastName = rs.getString(LAST_NAME);
+                String email = rs.getString(EMAIL);
+                User user = new User(firstName, lastName, email);
+                users.add(user);
+            }
+        } catch(SQLException sqle) {
+            logger.error("Failed to retrieve query results for query: " + getStatement);
+            logger.debug(sqle.toString());
+        }
+        JSONArray jsonArray = new JSONArray();
+        for (User user : users) {
+            jsonArray.add(user);
+        }
+        return jsonArray.toString();
     }
 
 
@@ -54,8 +68,6 @@ public class UserService {
     }
 
     private static String populateGetData(JSONObject getData) {
-        String id = (String)getData.get(ID);
-
         ArrayList<String> columns = new ArrayList<>();
         ArrayList<String> conditionColumns = new ArrayList<>();
         ArrayList<String> conditionValues = new ArrayList<>();
@@ -63,10 +75,14 @@ public class UserService {
         columns.add(FIRST_NAME);
         columns.add(LAST_NAME);
         columns.add(EMAIL);
-        conditionColumns.add(ID);
-        conditionValues.add(id);
 
-        return StatementGenerator.create(columns, USER, conditionColumns, conditionValues);
+        String id = (String)getData.get(ID);
+        if (id != null) {
+            conditionColumns.add(ID);
+            conditionValues.add(id);
+        }
+
+        return StatementGenerator.select(columns, USER, conditionColumns, conditionValues);
     }
 
 }
