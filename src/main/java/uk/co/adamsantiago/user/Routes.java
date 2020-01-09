@@ -23,6 +23,8 @@ public class Routes {
     public static void main(String[] args) {
         get("/user", (req, res) -> {
             DBConnection connection = new DBConnection();
+            JSONObject getData = parseJson(req);
+            UserService.getUser(connection, getData);
             connection.close();
             res.status(200);
             return "";

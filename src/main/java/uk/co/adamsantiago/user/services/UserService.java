@@ -14,24 +14,30 @@ public class UserService {
 
     private final static String USER = "user";
 
+    private final static String ID = "id";
     private final static String FIRST_NAME = "first_name";
     private final static String LAST_NAME = "last_name";
     private final static String EMAIL = "email";
     private final static String PASSWORD = "password";
 
     public static boolean createUser(DBConnection connection, JSONObject postData) {
-        ArrayList<String> columns = new ArrayList<>();
-        ArrayList<String> values = new ArrayList<>();
         String insertStatement = populateInsertData(postData);
         connection.executeQuery(insertStatement);
         return true;
     }
 
+    public static boolean getUser(DBConnection connection, JSONObject getData) {
+        String getStatement = populateGetData(getData);
+        connection.executeQuery(getStatement);
+        return true;
+    }
+
+
     private static String populateInsertData(JSONObject postData) {
-        String firstName = (String)postData.get("first_name");
-        String lastName = (String)postData.get("last_name");
-        String email = (String)postData.get("email");
-        String password = (String)postData.get("password");
+        String firstName = (String)postData.get(FIRST_NAME);
+        String lastName = (String)postData.get(LAST_NAME);
+        String email = (String)postData.get(EMAIL);
+        String password = (String)postData.get(PASSWORD);
 
         ArrayList<String> columns = new ArrayList<String>();
         ArrayList<String> values = new ArrayList<String>();
@@ -45,6 +51,22 @@ public class UserService {
         values.add(email);
         values.add(password);
         return StatementGenerator.insert(USER, columns, values);
+    }
+
+    private static String populateGetData(JSONObject getData) {
+        String id = (String)getData.get(ID);
+
+        ArrayList<String> columns = new ArrayList<>();
+        ArrayList<String> conditionColumns = new ArrayList<>();
+        ArrayList<String> conditionValues = new ArrayList<>();
+
+        columns.add(FIRST_NAME);
+        columns.add(LAST_NAME);
+        columns.add(EMAIL);
+        conditionColumns.add(ID);
+        conditionValues.add(id);
+
+        return StatementGenerator.create(columns, USER, conditionColumns, conditionValues);
     }
 
 }
